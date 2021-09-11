@@ -7,12 +7,14 @@ import (
 )
 
 const (
-	maxMessageSize = 1024
+	MAX_MESSAGE_SIZE  = 1024
+	READ_BUFFER_SIZE  = 1024
+	WRITE_BUFFER_SIZE = 1024
 )
 
 var Upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
+	ReadBufferSize:  READ_BUFFER_SIZE,
+	WriteBufferSize: WRITE_BUFFER_SIZE,
 }
 
 type Client struct {
@@ -38,7 +40,7 @@ func (c *Client) readPump() {
 		c.Conn.Close()
 	}()
 
-	c.Conn.SetReadLimit(maxMessageSize)
+	c.Conn.SetReadLimit(MAX_MESSAGE_SIZE)
 	for {
 		_, message, err := c.Conn.ReadMessage()
 		if err != nil {
